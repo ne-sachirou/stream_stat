@@ -2,6 +2,7 @@ StreamStat: Aggregate large data statictics with streaming.
 
 [![Gem Version](https://badge.fury.io/rb/stream_stat.svg)](https://badge.fury.io/rb/stream_stat)
 [![Build Status](https://travis-ci.org/ne-sachirou/stream_stat.svg?branch=master)](https://travis-ci.org/ne-sachirou/stream_stat)
+[![Code Climate](https://codeclimate.com/github/ne-sachirou/stream_stat/badges/gpa.svg)](https://codeclimate.com/github/ne-sachirou/stream_stat)
 
 StreamStat
 ==
