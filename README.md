@@ -21,7 +21,7 @@ View the intermediate results.
 p StreamStat.new(large_data)
             .lazy
             .each_with_index
-            .inject { |_a, r| stat, i = r; p stat.sd if i % 100 == 0; stst }
+            .inject { |_a, r| stat, i = r; p stat.sd if i % 100 == 0; stat }
             .sd
 ```
 
