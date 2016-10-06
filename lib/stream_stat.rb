@@ -63,7 +63,7 @@ class StreamStat
 
   def each
     ys = Enumerator.new do |y|
-      @enum.lazy.inject(V.new) do |v1, item|
+      @enum.inject(V.new) do |v1, item|
         v2 = v1.next item
         y << v2
         v2
