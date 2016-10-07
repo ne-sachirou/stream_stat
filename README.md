@@ -9,6 +9,8 @@ StreamStat
 ==
 A library to aggragate statistics of large data with streaming, less memory.
 
+Currently average (`:avg`), variance (`:variance`) & standard deviation (`:sd`) are supported.
+
 Usage
 --
 Aggragate a SD of large_data.
@@ -20,11 +22,25 @@ p StreamStat.new(large_data).inject { |_a, stat| stat }.sd
 View the intermediate results.
 
 ```ruby
-p StreamStat.new(large_data)
-            .lazy
-            .each_with_index
-            .inject { |_a, r| stat, i = r; p stat.sd if i % 100 == 0; stat }
-            .sd
+stat = StreamStat.new(large_data)
+                 .lazy
+                 .each_with_index
+                 .inject { |_a, r|
+                   stat, i = r
+                   if i % 100 == 0
+                     puts <<-EOF
+avg:\t#{stat.avg}
+variance:\t#{stat.variance}
+sd:\t#{stat.sd}
+EOF
+                   end
+                   stat
+                 }
+puts <<-EOF
+avg:\t#{stat.avg}
+variance:\t#{stat.variance}
+sd:\t#{stat.sd}
+EOF
 ```
 
 Installation
