@@ -53,7 +53,7 @@ class StreamStat
     private
 
     def next_variance_sum(current_avg, next_avg, item)
-      (@variance_sum + (next_avg**2 - current_avg**2) * @length + 2 * (current_avg - next_avg) * @sum) + (item - next_avg)**2
+      @variance_sum + (next_avg - current_avg)**2 * @length + (item - next_avg)**2
     end
   end
 
