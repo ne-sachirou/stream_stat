@@ -2,6 +2,7 @@
 
 require 'codeclimate-test-reporter'
 require 'rspec/its'
+require 'rspec-parameterized'
 Dir["#{__dir__}/support/*.rb"].each { |rb| require_relative rb }
 
 CodeClimate::TestReporter.start

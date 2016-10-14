@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 RSpec.describe StreamStat do
   describe '#each' do
     it 'return an Enumerable' do
@@ -19,12 +17,12 @@ RSpec.describe StreamStat do
       it 'iterates statistic result with streaming' do
         actual = []
         described_class.new(data).each { |stat| actual << { avg: stat.avg, variance: stat.variance, sd: stat.sd } }
-        expect(actual).to eq expected
+        expect(actual).to fuzzy_eq expected
       end
 
       it 'returns an Enumerable which iterates statistic result' do
         actual = described_class.new(data).lazy.collect { |stat| { avg: stat.avg, variance: stat.variance, sd: stat.sd } }.to_a
-        expect(actual).to eq expected
+        expect(actual).to fuzzy_eq expected
       end
     end
   end
