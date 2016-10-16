@@ -11,17 +11,17 @@ RSpec.describe StreamStat do
       let :expected do
         1.upto(data.size)
          .collect { |i| data.take i }
-         .collect { |data| { avg: avg(data), variance: variance(data), sd: sd(data) } }
+         .collect { |data| { avg: avg(data), variance: variance(data), sd: sd(data), min: data.min, max: data.max } }
       end
 
       it 'iterates statistic result with streaming' do
         actual = []
-        described_class.new(data).each { |stat| actual << { avg: stat.avg, variance: stat.variance, sd: stat.sd } }
+        described_class.new(data).each { |stat| actual << { avg: stat.avg, variance: stat.variance, sd: stat.sd, min: stat.min, max: stat.max } }
         expect(actual).to fuzzy_eq expected
       end
 
       it 'returns an Enumerable which iterates statistic result' do
-        actual = described_class.new(data).lazy.collect { |stat| { avg: stat.avg, variance: stat.variance, sd: stat.sd } }.to_a
+        actual = described_class.new(data).lazy.collect { |stat| { avg: stat.avg, variance: stat.variance, sd: stat.sd, min: stat.min, max: stat.max } }.to_a
         expect(actual).to fuzzy_eq expected
       end
     end

@@ -31,6 +31,8 @@ require_relative 'stream_stat/v'
 #   avg:\t#{stat.avg}
 #   variance:\t#{stat.variance}
 #   sd:\t#{stat.sd}
+#   min:\t#{stat.min}
+#   max:\t#{stat.max}
 #   EOF
 #   end
 #

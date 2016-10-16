@@ -10,7 +10,7 @@ StreamStat
 ==
 A library to aggragate statistics of large data with streaming, less memory.
 
-Currently average (`:avg`), variance (`:variance`) & standard deviation (`:sd`) are supported.
+Currently average (`:avg`), variance (`:variance`), standard deviation (`:sd`), minimun (`:min`) & maximum (`:max`) are supported.
 
 Usage
 --
@@ -40,6 +40,8 @@ def pstat(stat)
 avg:\t#{stat.avg}
 variance:\t#{stat.variance}
 sd:\t#{stat.sd}
+min:\t#{stat.min}
+max:\t#{stat.max}
 EOF
 end
 
