@@ -5,7 +5,7 @@ describe StreamStat do
     require_relative '../example/example'
     Example.all.each do |example|
       it example.description do
-        example.eval
+        expect { example.eval }.not_to raise_error
       end
     end
   end
