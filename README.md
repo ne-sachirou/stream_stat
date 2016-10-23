@@ -43,7 +43,7 @@ module Enumerable
   def each_tap
     collect do |*item|
       yield(*item)
-      [*item]
+      item
     end
   end
 
