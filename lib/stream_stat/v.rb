@@ -38,11 +38,11 @@ class StreamStat
     private
 
     def next_avg(next_length, item)
-      @count.to_f / next_length * @avg + item / next_length
+      @avg + (item - @avg) / next_length
     end
 
     def next_square_avg(next_length, item)
-      @count.to_f / next_length * @square_avg + item**2 / next_length
+      @square_avg + (item**2 - @square_avg) / next_length
     end
   end
 end
