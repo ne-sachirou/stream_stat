@@ -3,10 +3,15 @@
 class StreamStat
   # Accumrator.
   #
-  # This holds :avg, :variance & :sd.
+  # This holds :avg, :variance, :sd, :min & :max
   class V
     attr_reader :avg, :min, :max
 
+    # @param [Integer] count
+    # @param [Float] avg
+    # @param [Float] square_avg
+    # @param [Float] min
+    # @param [Float] max
     def initialize(count = 0, avg = 0.0, square_avg = 0.0, min = Float::INFINITY, max = -Float::INFINITY)
       @count = count
       @avg = avg
@@ -15,6 +20,8 @@ class StreamStat
       @max = max
     end
 
+    # @param [Numeric] item
+    # @return [StreamStat::V]
     def next(item)
       item = item.to_f
       next_length = @count + 1
@@ -27,10 +34,12 @@ class StreamStat
       )
     end
 
+    # @return [Float]
     def variance
       @square_avg - @avg**2
     end
 
+    # @return [Float]
     def sd
       Math.sqrt variance
     end

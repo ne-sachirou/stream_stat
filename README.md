@@ -10,10 +10,17 @@ StreamStat
 ==
 A library to aggragate statistics of large data with streaming, less memory.
 
-Currently average (`:avg`), variance (`:variance`), standard deviation (`:sd`), minimun (`:min`) & maximum (`:max`) are supported.
+Currently supported are:
+
+- average 平均 `:avg`
+- variance 分散 `:variance`
+- standard deviation 標準偏差 `:sd`
+- minimun 最小値 `:min`
+- maximum 最大値 `:max`
 
 Usage
 --
+
 Aggragate a SD of large_data.
 
 ```ruby
@@ -63,6 +70,8 @@ stat = StreamStat.new(large_data)
                  .last[0]
 pstat stat
 ```
+
+[doc](http://www.rubydoc.info/gems/stream_stat)
 
 Installation
 --

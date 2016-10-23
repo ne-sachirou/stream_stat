@@ -6,10 +6,13 @@ require_relative 'stream_stat/v'
 class StreamStat
   include Enumerable
 
+  # @param [Enumerable] enum
   def initialize(enum)
     @enum = enum
   end
 
+  # @yield [StreamStat::V]
+  # @return [Enumerable<StreamStat::V>]
   def each
     ys = Enumerator.new do |y|
       @enum.inject(V.new) do |v1, item|
