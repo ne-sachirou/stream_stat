@@ -1,23 +1,27 @@
 # frozen_string_literal: true
 
+require_relative 'experimental'
+
 class StreamStat
   # Accumrator.
   #
   # This holds :avg, :variance, :sd, :min & :max
   class V
-    attr_reader :avg, :min, :max
+    attr_reader :avg, :min, :max, :experimental
 
     # @param [Integer] count
     # @param [Float] avg
     # @param [Float] square_avg
     # @param [Float] min
     # @param [Float] max
-    def initialize(count = 0, avg = 0.0, square_avg = 0.0, min = Float::INFINITY, max = -Float::INFINITY)
+    # @param [Experimental] experimental
+    def initialize(count = 0, avg = 0.0, square_avg = 0.0, min = Float::INFINITY, max = -Float::INFINITY, experimental = Experimental.new)
       @count = count
       @avg = avg
       @square_avg = square_avg
       @min = min
       @max = max
+      @experimental = experimental
     end
 
     # @param [Numeric] item
@@ -30,7 +34,8 @@ class StreamStat
         next_avg(next_length, item),
         next_square_avg(next_length, item),
         [@min, item].min,
-        [@max, item].max
+        [@max, item].max,
+        @experimental.next(item)
       )
     end
 
