@@ -11,14 +11,9 @@ class StreamStat
     end
 
     def next(item)
-      @count += 1
-      log_count = Math.log @count
-      if @sample.size < log_count
-        @sample << @count
-      elsif rand(@count) <= log_count
-        @sample.shift
-        @sample << item
-      end
+      next_length = @count + 1
+      @sample = next_sample next_length, item
+      @count = next_length
       self
     end
 
@@ -30,6 +25,19 @@ class StreamStat
       else
         (sorted_sample[sample_size / 2 - 1] + sorted_sample[sample_size / 2]) / 2.0
       end
+    end
+
+    private
+
+    def next_sample(next_length, item)
+      log_count = Math.log next_length
+      i = rand next_length
+      if @sample.size < log_count
+        @sample << item
+      elsif i < log_count
+        @sample[i] = item
+      end
+      @sample
     end
   end
 end
