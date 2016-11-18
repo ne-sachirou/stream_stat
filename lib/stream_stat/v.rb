@@ -7,44 +7,45 @@ class StreamStat
   #
   # This holds :avg, :variance, :sd, :min & :max
   class V
+    # @!attribute [r] avg
+    #   @return [Float] average
+    # @!attribute [r] min
+    #   @return [Float] minimum
+    # @!attribute [r] max
+    #   @return [Float] maximum
+    # @!attribute [r] experimental
+    #   @return [StreamStat::Experimental] experimental calculator
     attr_reader :avg, :min, :max, :experimental
 
-    # @param [Integer] count
-    # @param [Float] avg
-    # @param [Float] square_avg
-    # @param [Float] min
-    # @param [Float] max
-    # @param [Experimental] experimental
-    def initialize(count = 0, avg = 0.0, square_avg = 0.0, min = Float::INFINITY, max = -Float::INFINITY, experimental = Experimental.new)
-      @count = count
-      @avg = avg
-      @square_avg = square_avg
-      @min = min
-      @max = max
-      @experimental = experimental
+    def initialize
+      @avg = 0.0
+      @square_avg = 0.0
+      @min = Float::INFINITY
+      @max = -Float::INFINITY
+      @count = 0
+      @experimental = Experimental.new
     end
 
     # @param [Numeric] item
-    # @return [StreamStat::V]
+    # @return [self]
     def next(item)
       item = item.to_f
       next_length = @count + 1
-      self.class.new(
-        next_length,
-        next_avg(next_length, item),
-        next_square_avg(next_length, item),
-        [@min, item].min,
-        [@max, item].max,
-        @experimental.next(item)
-      )
+      @avg = next_avg next_length, item
+      @square_avg = next_square_avg next_length, item
+      @min = [@min, item].min
+      @max = [@max, item].max
+      @count = next_length
+      @experimental.next item
+      self
     end
 
-    # @return [Float]
+    # @return [Float] variance
     def variance
       @square_avg - @avg**2
     end
 
-    # @return [Float]
+    # @return [Float] standard deviation
     def sd
       Math.sqrt variance
     end

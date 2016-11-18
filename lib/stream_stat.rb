@@ -15,10 +15,10 @@ class StreamStat
   # @return [Enumerable<StreamStat::V>]
   def each
     ys = Enumerator.new do |y|
-      @enum.inject(V.new) do |v1, item|
-        v2 = v1.next item
-        y << v2
-        v2
+      @enum.each_with_object(V.new) do |item, v|
+        v.next item
+        y << v
+        v
       end
     end
     ys.each { |stat| yield stat } if block_given?

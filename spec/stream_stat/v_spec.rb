@@ -21,7 +21,17 @@ RSpec.describe StreamStat::V do
       end
 
       with_them do
-        subject { described_class.new(data.size, avg(data), avg(data.collect { |i| i**2 }), data.min, data.max).next(item) }
+        subject do
+          v = described_class.new.instance_exec(data, method(:avg)) do |data, avg|
+            @avg = avg[data]
+            @square_avg = avg[data.collect { |i| i**2 }]
+            @min = data.min
+            @max = data.max
+            @count = data.size
+            self
+          end
+          v.next item
+        end
 
         its(:avg) { is_expected.to fuzzy_eq avg [*data, item] }
         its(:variance) { is_expected.to fuzzy_eq variance [*data, item] }
@@ -38,7 +48,11 @@ RSpec.describe StreamStat::V do
     end
 
     it 'returns avg' do
-      expect(described_class.new(0, 57.0).avg).to eq 57.0
+      v = described_class.new.instance_eval do
+        @avg = 57.0
+        self
+      end
+      expect(v.avg).to eq 57.0
     end
   end
 
@@ -47,8 +61,16 @@ RSpec.describe StreamStat::V do
       expect(described_class.new.variance).to eq 0.0
     end
 
-    it 'returns variance' do
-      expect(described_class.new(0, 3.0, 18.0).variance).to eq 9.0
+    context 'avg=3.0 & square_avg=18.0' do
+      subject do
+        described_class.new.instance_eval do
+          @avg = 3.0
+          @square_avg = 18.0
+          self
+        end
+      end
+
+      its(:variance) { is_expected.to eq 9.0 }
     end
   end
 
@@ -57,28 +79,44 @@ RSpec.describe StreamStat::V do
       expect(described_class.new.sd).to eq 0.0
     end
 
-    it 'returns square root of variance' do
-      expect(described_class.new(0, 3.0, 18.0).sd).to eq 3.0
+    context 'avg=3.0 & square_avg=18.0' do
+      subject do
+        described_class.new.instance_eval do
+          @avg = 3.0
+          @square_avg = 18.0
+          self
+        end
+      end
+
+      its(:sd) { is_expected.to eq 3.0 }
     end
   end
 
   describe '#min' do
-    it 'returns 0 as a default' do
+    it 'returns INFINITY as a default' do
       expect(described_class.new.min).to eq Float::INFINITY
     end
 
     it 'returns min' do
-      expect(described_class.new(0, 0.0, 0.0, 57.0, 0.0).min).to eq 57.0
+      v = described_class.new.instance_eval do
+        @min = 57.0
+        self
+      end
+      expect(v.min).to eq 57.0
     end
   end
 
   describe '#max' do
-    it 'returns 0 as a default' do
+    it 'returns -INFINITY as a default' do
       expect(described_class.new.max).to eq(-Float::INFINITY)
     end
 
     it 'returns max' do
-      expect(described_class.new(0, 0.0, 0.0, 0.0, 57.0).max).to eq 57.0
+      v = described_class.new.instance_eval do
+        @max = 57.0
+        self
+      end
+      expect(v.max).to eq 57.0
     end
   end
 end

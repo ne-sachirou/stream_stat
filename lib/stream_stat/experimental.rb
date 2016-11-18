@@ -25,7 +25,7 @@ class StreamStat
     def medium_of_sample
       sample_size = @sample.size
       sorted_sample = @sample.sort
-      if (sample_size % 2).zero?
+      if sample_size.even?
         sorted_sample[sample_size / 2 - 1]
       else
         (sorted_sample[sample_size / 2 - 1] + sorted_sample[sample_size / 2]) / 2.0
