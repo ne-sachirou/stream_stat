@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'codeclimate-test-reporter'
+require 'simplecov'
 require 'rspec/its'
 require 'rspec-parameterized'
 Dir["#{__dir__}/support/*.rb"].each { |rb| require_relative rb }
 
-CodeClimate::TestReporter.start
+SimpleCov.start
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
